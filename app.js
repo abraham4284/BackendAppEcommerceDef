@@ -25,6 +25,10 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/",(req,res)=>{
+    res.send("Api funcionando");
+})
+
 app.use('/api', UsuariosClientesRoutes);
 app.use('/api', proveedoresRoutes);
 app.use('/api', productosRoutes);
