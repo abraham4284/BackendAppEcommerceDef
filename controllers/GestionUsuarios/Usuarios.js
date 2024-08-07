@@ -40,8 +40,8 @@ export const registroGeneral = (rol) => {
       const token = createAccesToken(datosUsuarios);
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true, // Asegúrate de usar HTTPS en producción
-        sameSite: "None",
+        secure: process.env.NODE_ENV === 'production', // Asegúrate de usar HTTPS en producción
+        sameSite: "Strict",
         maxAge: 24 * 60 * 60 * 1000, // 1 día
         path: "/",
       });
