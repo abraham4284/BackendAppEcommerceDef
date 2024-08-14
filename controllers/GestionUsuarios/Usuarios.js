@@ -41,9 +41,8 @@ export const registroGeneral = (rol) => {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: "None",
-        maxAge: 24 * 60 * 60 * 1000,
-        path: "/",
+        sameSite: 'strict',
+        maxAge: 1000 * 60 * 60
       });
       console.log(token);
       res.status(201).json(datosUsuarios);
@@ -86,6 +85,8 @@ export const loginUsuariosClientes = async (req, res) => {
       rol,
     };
 
+    console.log(datosUsuarios,'Datos User Login');
+
     const token = createAccesToken(datosUsuarios);
     console.log(token, "token de login");
 
@@ -94,12 +95,13 @@ export const loginUsuariosClientes = async (req, res) => {
       [token, fecha, rows[0].idusuarios]
     );
 
+    console.log(token,fecha,rows[0].idusuarios,'Data de table Login')
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-      path: "/",
+      sameSite: 'strict',
+      maxAge: 1000 * 60 * 60
     });
     res.status(201).json(datosUsuarios);
     //Creamos la conexion

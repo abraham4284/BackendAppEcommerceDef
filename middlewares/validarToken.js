@@ -9,6 +9,7 @@ export const validarToken = (rolesPermitidos)=>{
             jwt.verify(token, TOKEN_SECRET,(error, user)=>{
                 if(error) return res.status(500).send("Token invalido");
                 req.user = user;
+                console.log(user,'Validar Token')
                 if(!rolesPermitidos.includes(req.user.rol)) return res.status(403).send('No tienes permisos');
                 next(); 
             })
