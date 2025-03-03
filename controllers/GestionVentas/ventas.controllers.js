@@ -6,6 +6,8 @@ import {
   modificarStockVenta,
 } from "../../libs/ModificarStock.js";
 
+//idformaDePago
+
 export const getVentas = async (req, res) => {
   try {
     const query = `
@@ -13,7 +15,7 @@ export const getVentas = async (req, res) => {
     formadepago.mediodepago, usuarios.apellido, usuarios.nombre, usuarios.telefono, ventas.idventas, ventas.idusuarios
     FROM ventas
     JOIN usuarios ON usuarios.idusuarios = ventas.idusuarios
-    JOIN formadepago ON formadepago.idformadepago = ventas.idformadepago
+    JOIN formadepago ON formadepago.idformaDePago = ventas.idformaDePago
     ORDER BY 
     CASE 
         WHEN ventas.estado = 'pendiente' THEN 1 
@@ -26,7 +28,11 @@ export const getVentas = async (req, res) => {
     res.send(ventas[0]);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log({ error: error.message });
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en getVentas"
+    })
   }
 };
 
@@ -39,7 +45,7 @@ export const getIdVentas = async (req, res) => {
       domicilios.calle, domicilios.numero,domicilios.descripcion
       FROM ventas
       JOIN usuarios ON usuarios.idusuarios = ventas.idusuarios
-      JOIN formadepago ON formadepago.idformadepago = ventas.idformadepago
+      JOIN formadepago ON formadepago.idformaDePago = ventas.idformaDePago
       JOIN domicilios ON domicilios.idusuarios = usuarios.idusuarios
       WHERE ventas.idventas = ?;
     `;
@@ -52,7 +58,11 @@ export const getIdVentas = async (req, res) => {
     res.json(rows[0]);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log({ error: error.message });
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en getIdVentas"
+    })
   }
 };
 
@@ -68,7 +78,11 @@ export const getIdDetalleVentas = async (req, res) => {
     res.json(rows);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log(error);
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en getIdDetalleVentas"
+    })
   }
 };
 
@@ -81,7 +95,7 @@ export const detalleVentaJoin = async (req, res) => {
        FROM detalle_venta
        JOIN productos ON detalle_venta.idproductos = productos.idproductos
        JOIN ventas ON ventas.idventas = detalle_venta.idventas
-       JOIN formadepago ON formadepago.idformadepago = ventas.idformadepago
+       JOIN formadepago ON formadepago.idformaDePago = ventas.idformaDePago
        WHERE detalle_venta.idventas = ?;
       `;
 
@@ -93,7 +107,11 @@ export const detalleVentaJoin = async (req, res) => {
     res.json(rows);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log(error);
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en detalleVentaJoin"
+    })
   }
 };
 
@@ -172,7 +190,11 @@ export const createVentas = async (req, res) => {
     res.status(201).json("Venta registrada");
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log({ error: error.message });
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en createVentas"
+    })
   }
 };
 
@@ -212,7 +234,11 @@ export const updateEstadoVentas = async (req, res) => {
     res.json(rowsSelect[0]);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log({ error: error.message });
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en updateEstadoVentas"
+    })
   }
 };
 
@@ -229,6 +255,10 @@ export const deleteVentas = async (req, res) => {
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({ error: "Error en el servidor" });
-    console.log(error);
+    console.log({
+      error: error.message,
+      errorCompleto: error,
+      message: "Error en deleteVentas"
+    })
   }
 };
